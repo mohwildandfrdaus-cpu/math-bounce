@@ -1,0 +1,152 @@
+<!Doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Math Bounce — Pilih Jawaban yang Benar!</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #0f172a;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 900px;
+    padding: 10px;
+    text-align: center;
+  }
+
+  /* HEADER */
+  .game-header {
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #score {
+    position: absolute;
+    left: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #10b981;
+  }
+
+  #level {
+    position: absolute;
+    right: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #38bdf8;
+  }
+
+  .game-header h1 {
+    font-size: 22px;
+    margin: 0;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* CANVAS */
+  canvas {
+    display: block;
+    width: min(95vw, 840px);
+    height: calc((min(95vw, 840px)) * 11 / 21);
+    background-color: #111827;
+    border: 2px solid #10b981;
+    border-radius: 8px;
+    margin: 20px auto;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+  }
+
+  #question,
+  #choices {
+    margin: 10px 0;
+    font-size: 18px;
+  }
+
+  #choices {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .choice {
+    background: #1e293b;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #334155;
+    transition: 0.25s;
+    font-size: 18px;
+  }
+
+  .choice:hover {
+    background: #10b981;
+    color: #042018;
+  }
+
+  /* COUNTDOWN */
+  #countdown {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 70px;
+    font-weight: 900;
+    color: #10b981;
+    text-shadow: 0 0 20px #000;
+    z-index: 50;
+  }
+
+  #countdown.hidden {
+    display: none;
+  }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+    <!-- HEADER -->
+    <header class="game-header"> 
+        <div id="score">Score: 0</div>
+        <h1>Math Bounce — Pilih Jawaban yang Benar!</h1>
+        <div id="level">Level: 1</div>
+    </header>
+
+    <!-- CANVAS -->
+    <canvas id="game" width="840" height="440"></canvas>
+
+    <!-- QUESTION & CHOICES -->
+    <div id="question"></div>
+    <div id="choices"></div>
+
+</div>
+
+<!-- COUNTDOWN -->
+<div id="countdown" class="hidden"></div>
+
+<!-- AUDIO -->
+<audio id="correctSound" src="correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="wrong.mp3" preload="auto"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
