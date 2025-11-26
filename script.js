@@ -4,12 +4,75 @@ const ctx = canvas.getContext("2d");
 // =========================
 // BALL
 // =========================
-let ball = { x: canvas.width/2, y: canvas.height-40, radius: 10, dx: 4, dy: -4 };
+let ball = { 
+    x: canvas.width/2, 
+    y: canvas.height-40, 
+    radius: 10, 
+    dx: 4, 
+    dy: -4,
+    color: "#ffffff"
+};
 
 // =========================
 // PADDLE
 // =========================
-let paddle = { w: 120, h: 18, x: canvas.width/2 - 60, speed: 8, right: false, left: false };
+let paddle = { 
+    w: 120, 
+    h: 18, 
+    x: canvas.width/2 - 60, 
+    speed: 8, 
+    right: false, 
+    left: false,
+    color: "#ffffff"
+};
+
+let moveLeft = false;
+let moveRight = false;
+
+// tombol ditekan lama (hold)
+document.getElementById("btn-left").addEventListener("touchstart", () => {
+  moveLeft = true;
+});
+
+document.getElementById("btn-right").addEventListener("touchstart", () => {
+  moveRight = true;
+});
+
+// ketika berhenti menyentuh
+document.getElementById("btn-left").addEventListener("touchend", () => {
+  moveLeft = false;
+});
+
+document.getElementById("btn-right").addEventListener("touchend", () => {
+  moveRight = false;
+});
+
+// gerakkan paddle di game loop
+function movePaddle() {
+  let speed = 7;
+
+  if (moveLeft && paddle.x > 0) {
+    paddle.x -= speed;
+  }
+  if (moveRight && paddle.x + paddle.w < canvas.width) {
+    paddle.x += speed;
+  }
+}
+// =========================
+// BALL COLORS
+// =========================
+let ballColors = ["#ff4757","#1e90ff","#2ed573","#ffa502","#9b59b6","#00cec9"];
+function randomBallColor(){
+    ball.color = ballColors[Math.floor(Math.random() * ballColors.length)];
+}
+
+// =========================
+// PADDLE COLORS
+// =========================
+let paddleColors = ["#ff4757","#1e90ff","#2ed573","#ffa502","#9b59b6","#00cec9"];
+function randomPaddleColor(){
+    paddle.color = paddleColors[Math.floor(Math.random() * paddleColors.length)];
+}
 
 // =========================
 // SCORE & LEVEL
@@ -113,22 +176,34 @@ document.addEventListener("keyup", e => {
 });
 
 // =========================
-// DRAW BALL & PADDLE
-// =========================
 function drawBall(){
     ctx.beginPath();
     ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-    ctx.fillStyle = "#fff";
+    ctx.fillStyle = ball.color || "#fff";
     ctx.fill();
 }
 
 function drawPaddle(){
-    ctx.fillStyle="#fff";
-    ctx.fillRect(paddle.x, canvas.height - paddle.h - 10, paddle.w, paddle.h);
+    ctx.fillStyle = paddle.color;
+    let x = paddle.x;
+    let y = canvas.height - paddle.h - 10;
+    let w = paddle.w;
+    let h = paddle.h;
+    let r = 10;
+
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.fill();
 }
 
-// =========================
-// DRAW BRICKS (CENTER FIXED)
 // =========================
 function drawBricks() {
     const totalWidth =
@@ -152,8 +227,6 @@ function drawBricks() {
     }
 }
 
-// =========================
-// QUESTION POPUP + COLOR COUNTDOWN
 // =========================
 function showQuestion(brick){
     pendingBrick = brick;
@@ -186,7 +259,6 @@ function showQuestion(brick){
     countdown.classList.remove("hidden");
     countdown.innerText = timeLeft;
 
-    // ✅ WARNA BERGANTI SETIAP DETIK
     const countdownColors = ["#10b981", "#ff4757", "#1e90ff", "#f1c40f", "#e67e22", "#9b59b6"];
     let colorIndex = 0;
 
@@ -210,8 +282,6 @@ function showQuestion(brick){
     }, 1000);
 }
 
-// =========================
-// CHECK ANSWER
 // =========================
 function checkAnswer(index){
     if (!pendingBrick) return;
@@ -242,8 +312,6 @@ function checkAnswer(index){
 }
 
 // =========================
-// COLLISION
-// =========================
 function collision(){
     if (pendingBrick) return;
 
@@ -267,8 +335,6 @@ function collision(){
 }
 
 // =========================
-// GAME OVER
-// =========================
 function gameOver() {
     alert("Game Over! Skor akhir: " + score);
 
@@ -282,8 +348,6 @@ function gameOver() {
 }
 
 // =========================
-// RESET GAME
-// =========================
 function resetGame(){
     ball.x = canvas.width / 2;
     ball.y = canvas.height - 40;
@@ -295,8 +359,6 @@ function resetGame(){
     initBricks();
 }
 
-// =========================
-// LOOP
 // =========================
 function update(){
 
@@ -315,21 +377,31 @@ function update(){
     if(paddle.right) paddle.x += paddle.speed;
     if(paddle.left) paddle.x -= paddle.speed;
 
-    if(paddle.x < 0) paddle.x = 0;
-    if(paddle.x + paddle.w > canvas.width) paddle.x = canvas.width - paddle.w;
+    if(paddle.x < 0){
+        paddle.x = 0;
+        randomPaddleColor();
+    }
+    if(paddle.x + paddle.w > canvas.width){
+        paddle.x = canvas.width - paddle.w;
+        randomPaddleColor();
+    }
 
     if(ball.x + ball.radius > canvas.width){
         ball.x = canvas.width - ball.radius;
         ball.dx = -ball.dx;
+        randomBallColor();
     }
+
     if(ball.x - ball.radius < 0){
         ball.x = ball.radius;
         ball.dx = -ball.dx;
+        randomBallColor();
     }
 
     if(ball.y - ball.radius < 0){
         ball.y = ball.radius;
         ball.dy = -ball.dy;
+        randomBallColor();
     }
 
     if(
@@ -339,6 +411,7 @@ function update(){
     ){
         ball.y = canvas.height - paddle.h - 10 - ball.radius;
         ball.dy = -ball.dy;
+        randomPaddleColor();
     }
 
     if (ball.y - ball.radius > canvas.height) {
@@ -349,6 +422,5 @@ function update(){
     requestAnimationFrame(update);
 }
 
-// START GAME
 initBricks();
 update();
