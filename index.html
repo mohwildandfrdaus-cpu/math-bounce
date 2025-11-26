@@ -1,8 +1,9 @@
-<!Doctype html>
+<!doctype html>
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Math Bounce — Pilih Jawaban yang Benar!</title>
 
 <link rel="stylesheet" href="style.css">
@@ -62,7 +63,7 @@
     width: 100%;
   }
 
-  /* CANVAS */
+  /* CANVAS RESPONSIVE */
   canvas {
     display: block;
     width: min(95vw, 840px);
@@ -95,6 +96,7 @@
     border: 1px solid #334155;
     transition: 0.25s;
     font-size: 18px;
+    user-select: none;
   }
 
   .choice:hover {
@@ -118,6 +120,38 @@
   #countdown.hidden {
     display: none;
   }
+
+  /* ———————————— MOBILE MODE ———————————— */
+  @media (max-width: 600px) {
+
+    .game-header h1 {
+      font-size: 18px;
+    }
+
+    #score, #level {
+      font-size: 14px;
+    }
+
+    #question {
+      font-size: 22px;
+    }
+
+    #choices {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .choice {
+      width: 90%;
+      padding: 14px 18px;
+      font-size: 20px;
+      margin: 0 auto;
+    }
+
+    #countdown {
+      font-size: 55px;
+    }
+  }
 </style>
 </head>
 
@@ -125,7 +159,7 @@
 <div class="wrap">
 
     <!-- HEADER -->
-    <header class="game-header"> 
+    <header class="game-header">
         <div id="score">Score: 0</div>
         <h1>Math Bounce — Pilih Jawaban yang Benar!</h1>
         <div id="level">Level: 1</div>
@@ -133,11 +167,6 @@
 
     <!-- CANVAS -->
     <canvas id="game" width="840" height="440"></canvas>
-
-    <div id="controls">
-  <button id="btn-left">⟵</button>
-  <button id="btn-right">⟶</button>
-</div>
 
     <!-- QUESTION & CHOICES -->
     <div id="question"></div>
@@ -148,9 +177,11 @@
 <!-- COUNTDOWN -->
 <div id="countdown" class="hidden"></div>
 
-<!-- AUDIO -->
-<audio id="correctSound" src="correct.mp3" preload="auto"></audio>
-<audio id="wrongSound" src="wrong.mp3" preload="auto"></audio>
+<!-- TOMBOL KONTROL MOBILE -->
+<div id="mobile-controls">
+    <button id="btn-left">&#8592;</button>
+    <button id="btn-right">&#8594;</button>
+</div>
 
 <script src="script.js"></script>
 </body>
