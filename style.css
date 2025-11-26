@@ -11,7 +11,7 @@
 }
 
 body {
-  height: 100vh;
+  min-height: 100vh;
   display: grid;
   place-items: center;
 
@@ -38,7 +38,7 @@ body::before {
 .wrap {
   width: 100%;
   max-width: 920px;
-  padding: 20px 0;
+  padding: 20px 10px;
   margin: 0 auto;
   text-align: center;
 }
@@ -81,15 +81,14 @@ body::before {
 }
 
 /* =========================
-   CANVAS
+   CANVAS (RESPONSIVE)
    ========================= */
 canvas {
   display: block;
   width: 100%;
   max-width: 920px;
 
-  height: 700px;
-
+  aspect-ratio: 21 / 11; /* ✅ Otomatis responsif */
   background: transparent !important;
   backdrop-filter: blur(3px);
   border-radius: 8px;
@@ -113,6 +112,7 @@ canvas {
   justify-content: center;
   margin-top: 10px;
   gap: 12px;
+  flex-wrap: wrap; /* ✅ Biar muat di HP */
 }
 
 .choice {
@@ -150,4 +150,56 @@ canvas {
 
 .hidden {
   display: none;
+}
+
+/* =========================
+   ✅ RESPONSIVE MOBILE
+   ========================= */
+@media (max-width: 480px) {
+  .game-header h1 {
+    font-size: 16px;
+  }
+
+  #score, #level {
+    font-size: 14px;
+  }
+
+  #question {
+    font-size: 16px;
+  }
+
+  .choice {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  #countdown {
+    font-size: 50px;
+  }
+}
+
+/* === TOUCH BUTTON CSS === */
+#controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 30px;
+}
+
+#controls button {
+  width: 80px;
+  height: 80px;
+  font-size: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 255, 255, 0.4);
+  color: white;
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+}
+
+#controls button:active {
+  background: rgba(0, 255, 255, 0.8);
 }
