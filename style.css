@@ -1,6 +1,5 @@
 :root {
   --accent: #10b981;
-  --muted: #94a3b8;
 }
 
 * {
@@ -10,205 +9,106 @@
   user-select: none;
 }
 
-html, body {
-  height: 100%;
-}
-
 body {
+  min-height: 100vh;
   display: grid;
   place-items: center;
-
-  font-family: Inter, Arial, sans-serif;
-  color: #e6eef6;
-
-  background-image: url("https://img.freepik.com/premium-photo/bright-neon-light-futuristic-scifi-hallway-corridor-spaceship-interior-3d-rendering_476612-29533.jpg?w=740");
-  background-size: cover;
-  background-position: center 77%;
-  background-repeat: no-repeat;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: #fff;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.12);
-  pointer-events: none;
-}
-
-/* =========================
-   WRAPPER
-   ========================= */
 .wrap {
   width: 100%;
-  max-width: 920px;
-  padding: 20px 0;
-  margin: 0 auto;
+  max-width: 900px;
+  padding: 10px;
   text-align: center;
 }
 
-/* =========================
-   HEADER
-   ========================= */
 .game-header {
-  width: 100%;
-  margin-bottom: 10px;
-
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  position: relative;
-}
-
-/* SCORE & LEVEL — FIX BIAR TIDAK NYATU DENGAN BACKGROUND */
-#score,
-#level {
-  font-size: 20px;
-  font-weight: 700;
-
-  padding: 4px 10px;
-  border-radius: 6px;
-
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(3px);
-
-  text-shadow: 2px 2px 5px #000;
 }
 
 #score {
   position: absolute;
   left: 0;
   color: var(--accent);
+  font-weight: bold;
 }
 
 #level {
   position: absolute;
   right: 0;
-  color: #fff;
+  font-weight: bold;
 }
 
-.game-header h1 {
-  font-size: 24px;
-  margin: 0 auto;
-  font-weight: 700;
-  color: #fff;
-}
-
-/* =========================
-   CANVAS  (FIX RASIO)
-   ========================= */
 canvas {
-  display: block;
   width: 100%;
-  max-width: 920px;
-
+  max-width: 900px;
   aspect-ratio: 21 / 11;
-  height: auto;
-
-  background: transparent !important;
-  backdrop-filter: blur(3px);
+  background: rgba(0,0,0,0.3);
   border-radius: 8px;
-
-  image-rendering: crisp-edges;
-  image-rendering: pixelated;
+  margin: 10px auto;
 }
 
-/* =========================
-   QUESTION & CHOICES
-   ========================= */
 #question {
-  margin-top: 10px;
+  margin-top: 8px;
   font-size: 18px;
-  color: #fef3c7;
-  min-height: 28px;
 }
 
 #choices {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
-  gap: 12px;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
 }
 
 .choice {
+  padding: 8px 14px;
   background: #1e293b;
-  border: 1px solid #334155;
-  padding: 10px 16px;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: 0.25s;
-  font-size: 18px;
 }
 
-.choice:hover,
 .choice.active {
   background: var(--accent);
-  color: #042018;
+  color: #022c22;
 }
 
-/* =========================
-   COUNTDOWN TIMER
-   ========================= */
 #countdown {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  font-size: 40px; /* dikurangi dari 70px */
-  font-weight: 900;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 60px;
+  font-weight: bold;
   color: var(--accent);
-
-  text-shadow: 0 0 20px #000;
-  z-index: 50;
 }
 
 .hidden {
   display: none;
 }
 
-/* =========================
-   MOBILE CONTROL BUTTONS
-   ========================= */
-
-#mobile-controls {
+/* Touch control */
+#controls {
   position: fixed;
-  bottom: 25px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 40px;
-  z-index: 2000;
+  gap: 30px;
 }
 
-#mobile-controls button {
+#controls button {
   width: 70px;
   height: 70px;
+  font-size: 28px;
   border-radius: 50%;
-  font-size: 34px;
-  font-weight: bold;
-
-  background: rgba(0, 0, 0, 0.45);
-  border: 2px solid var(--accent);
-  color: var(--accent);
-
-  backdrop-filter: blur(4px);
-
-  box-shadow: 0 0 12px #10b981, 0 0 22px #10b98155;
-  cursor: pointer;
-
-  transition: 0.2s ease;
-}
-
-#mobile-controls button:active {
-  transform: scale(0.88);
-  background: var(--accent);
-  color: #042018;
-}
-
-/* Sembunyikan tombol di layar besar (desktop) */
-@media (min-width: 800px) {
-  #mobile-controls {
-    display: none;
-  }
+  border: none;
+  background: rgba(16,185,129,0.6);
+  color: white;
 }
